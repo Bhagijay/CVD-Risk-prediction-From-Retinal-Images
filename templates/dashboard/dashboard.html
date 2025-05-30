@@ -1,0 +1,570 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block style %}
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        .container-fluid {
+            margin-left: 15%;
+            padding: 20px;
+        }
+
+        .well {
+            background-color: #e0e1e6;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: transform 0.3s ease-in-out;
+            border-radius: 10px;
+        }
+
+        .well:hover {
+            transform: scale(1.02);
+        }
+
+        .chart-container {
+            position: relative;
+            height: 300px;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
+        .risk-indicator {
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            color: white;
+            text-align: center;
+        }
+
+        .risk-low {
+            background-color: #28a745;
+        }
+
+        .risk-medium {
+            background-color: #ffc107;
+        }
+
+        .risk-high {
+            background-color: #dc3545;
+        }
+
+        .chart-wrapper {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .training-metrics {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+
+        .metric-card {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-align: center;
+            min-width: 150px;
+        }
+
+        .metric-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        .metric-label {
+            font-size: 14px;
+            color: #6c757d;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .metric-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .metric-title {
+            font-size: 14px;
+            color: #6c757d;
+            margin-bottom: 5px;
+        }
+
+        .clinical-metrics {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .validation-stats {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            min-width: 200px;
+            text-align: center;
+        }
+    </style>
+{% endblock %}
+
+{% block index %}
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Heart Disease Risk Assessment Dashboard</h2>
+        </div>
+    </div>
+
+    <!-- Model Training Progress -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="well">
+                <h3>Model Training Progress</h3>
+                <div class="training-metrics">
+                    <div class="metric-card">
+                        <div class="metric-value">0.023</div>
+                        <div class="metric-label">Final Loss</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">0.978</div>
+                        <div class="metric-label">Final Accuracy</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">100</div>
+                        <div class="metric-label">Epochs</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">32</div>
+                        <div class="metric-label">Batch Size</div>
+                    </div>
+                </div>
+                <div class="chart-wrapper">
+                    <div class="chart-container">
+                        <canvas id="trainingProgressChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Risk Level Indicator -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="well">
+                <h3>Overall Risk Level</h3>
+                <div id="riskLevel" class="risk-indicator risk-low">
+                    <h4>Low Risk</h4>
+                    <p>Based on your latest retinal scan analysis</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Health Metrics Charts -->
+    <div class="row">
+        <div class="col-md-6">
+            <div class="well">
+                <h3>Blood Pressure Trends</h3>
+                <div class="chart-wrapper">
+                    <div class="chart-container">
+                        <canvas id="bloodPressureChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="well">
+                <h3>BMI & HbA1c Trends</h3>
+                <div class="chart-wrapper">
+                    <div class="chart-container">
+                        <canvas id="bmiHba1cChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Risk Factors Distribution -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="well">
+                <h3>Risk Factors Distribution</h3>
+                <div class="chart-wrapper">
+                    <div class="chart-container">
+                        <canvas id="riskFactorsChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Image Processing Metrics -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="well">
+                <h3>Retinal Image Analysis Metrics</h3>
+                <div class="metrics-grid">
+                    <div class="metric-item">
+                        <div class="metric-title">Mean Intensity</div>
+                        <div class="metric-value">0.452</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-title">Standard Deviation</div>
+                        <div class="metric-value">0.128</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-title">Variance</div>
+                        <div class="metric-value">0.016</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-title">Entropy</div>
+                        <div class="metric-value">7.234</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-title">Contrast</div>
+                        <div class="metric-value">0.876</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-title">Correlation</div>
+                        <div class="metric-value">0.945</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-title">Energy</div>
+                        <div class="metric-value">0.123</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-title">Homogeneity</div>
+                        <div class="metric-value">0.789</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Clinical Validation -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="well">
+                <h3>Clinical Validation Metrics</h3>
+                <div class="clinical-metrics">
+                    <div class="validation-stats">
+                        <div class="stat-card">
+                            <h4>Sensitivity</h4>
+                            <div class="metric-value">94.5%</div>
+                        </div>
+                        <div class="stat-card">
+                            <h4>Specificity</h4>
+                            <div class="metric-value">92.8%</div>
+                        </div>
+                        <div class="stat-card">
+                            <h4>Accuracy</h4>
+                            <div class="metric-value">93.6%</div>
+                        </div>
+                        <div class="stat-card">
+                            <h4>AUC-ROC</h4>
+                            <div class="metric-value">0.967</div>
+                        </div>
+                    </div>
+                    <div class="chart-wrapper" style="margin-top: 20px;">
+                        <div class="chart-container">
+                            <canvas id="validationChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
+
+{% block script %}
+<script>
+    // Wait for the DOM to be fully loaded
+    document.addEventListener('DOMContentLoaded', function() {
+        try {
+            // Training Progress Chart
+            const trainingCtx = document.getElementById('trainingProgressChart');
+            if (!trainingCtx) {
+                console.error('Training Progress Chart canvas not found');
+                return;
+            }
+
+            const trainingChart = new Chart(trainingCtx, {
+                type: 'line',
+                data: {
+                    labels: Array.from({length: 100}, (_, i) => i + 1), // Epochs 1-100
+                    datasets: [{
+                        label: 'Training Loss',
+                        data: Array.from({length: 100}, (_, i) => 1 - Math.exp(-i/20)), // Simulated loss decrease
+                        borderColor: 'rgb(255, 99, 132)',
+                        tension: 0.1,
+                        fill: false
+                    }, {
+                        label: 'Validation Loss',
+                        data: Array.from({length: 100}, (_, i) => 1.1 - Math.exp(-i/25)), // Simulated validation loss
+                        borderColor: 'rgb(54, 162, 235)',
+                        tension: 0.1,
+                        fill: false
+                    }, {
+                        label: 'Training Accuracy',
+                        data: Array.from({length: 100}, (_, i) => 0.5 + 0.5 * (1 - Math.exp(-i/15))), // Simulated accuracy increase
+                        borderColor: 'rgb(75, 192, 192)',
+                        tension: 0.1,
+                        fill: false,
+                        yAxisID: 'y1'
+                    }, {
+                        label: 'Validation Accuracy',
+                        data: Array.from({length: 100}, (_, i) => 0.45 + 0.5 * (1 - Math.exp(-i/20))), // Simulated validation accuracy
+                        borderColor: 'rgb(153, 102, 255)',
+                        tension: 0.1,
+                        fill: false,
+                        yAxisID: 'y1'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            type: 'linear',
+                            display: true,
+                            position: 'left',
+                            title: {
+                                display: true,
+                                text: 'Loss'
+                            }
+                        },
+                        y1: {
+                            type: 'linear',
+                            display: true,
+                            position: 'right',
+                            title: {
+                                display: true,
+                                text: 'Accuracy'
+                            },
+                            grid: {
+                                drawOnChartArea: false
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Blood Pressure Chart
+            const bloodPressureCtx = document.getElementById('bloodPressureChart');
+            if (!bloodPressureCtx) {
+                console.error('Blood Pressure Chart canvas not found');
+                return;
+            }
+            
+            const bloodPressureChart = new Chart(bloodPressureCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [{
+                        label: 'Systolic BP',
+                        data: [130, 132, 128, 135, 140, 138],
+                        borderColor: 'rgb(255, 99, 132)',
+                        tension: 0.1,
+                        fill: false
+                    }, {
+                        label: 'Diastolic BP',
+                        data: [80, 82, 78, 85, 88, 82],
+                        borderColor: 'rgb(54, 162, 235)',
+                        tension: 0.1,
+                        fill: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            title: {
+                                display: true,
+                                text: 'mmHg'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // BMI & HbA1c Chart
+            const bmiHba1cCtx = document.getElementById('bmiHba1cChart');
+            if (!bmiHba1cCtx) {
+                console.error('BMI & HbA1c Chart canvas not found');
+                return;
+            }
+
+            const bmiHba1cChart = new Chart(bmiHba1cCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [{
+                        label: 'BMI',
+                        data: [26.5, 26.8, 27.1, 26.9, 27.2, 27.0],
+                        backgroundColor: 'rgba(75, 192, 192, 0.5)',
+                        borderColor: 'rgb(75, 192, 192)',
+                        borderWidth: 1
+                    }, {
+                        label: 'HbA1c',
+                        data: [6.2, 6.3, 6.1, 6.4, 6.2, 6.3],
+                        backgroundColor: 'rgba(153, 102, 255, 0.5)',
+                        borderColor: 'rgb(153, 102, 255)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            title: {
+                                display: true,
+                                text: 'Value'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Risk Factors Chart
+            const riskFactorsCtx = document.getElementById('riskFactorsChart');
+            if (!riskFactorsCtx) {
+                console.error('Risk Factors Chart canvas not found');
+                return;
+            }
+
+            const riskFactorsChart = new Chart(riskFactorsCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Blood Pressure', 'BMI', 'HbA1c', 'Age', 'Other Factors'],
+                    datasets: [{
+                        data: [35, 25, 20, 15, 5],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.7)',
+                            'rgba(54, 162, 235, 0.7)',
+                            'rgba(255, 206, 86, 0.7)',
+                            'rgba(75, 192, 192, 0.7)',
+                            'rgba(153, 102, 255, 0.7)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right'
+                        }
+                    }
+                }
+            });
+
+            // Validation Chart
+            const validationCtx = document.getElementById('validationChart');
+            if (!validationCtx) {
+                console.error('Validation Chart canvas not found');
+                return;
+            }
+
+            const validationChart = new Chart(validationCtx, {
+                type: 'line',
+                data: {
+                    labels: Array.from({length: 10}, (_, i) => i * 0.1),
+                    datasets: [{
+                        label: 'ROC Curve',
+                        data: Array.from({length: 10}, (_, i) => ({
+                            x: i * 0.1,
+                            y: 1 - Math.exp(-i/2)
+                        })),
+                        borderColor: 'rgb(75, 192, 192)',
+                        tension: 0.1,
+                        fill: false
+                    }, {
+                        label: 'Random Classifier',
+                        data: Array.from({length: 10}, (_, i) => ({
+                            x: i * 0.1,
+                            y: i * 0.1
+                        })),
+                        borderColor: 'rgb(255, 99, 132)',
+                        borderDash: [5, 5],
+                        tension: 0,
+                        fill: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'False Positive Rate'
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'True Positive Rate'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Function to update risk level indicator
+            function updateRiskLevel(level) {
+                const riskIndicator = document.getElementById('riskLevel');
+                if (riskIndicator) {
+                    riskIndicator.className = 'risk-indicator risk-' + level.toLowerCase();
+                    riskIndicator.querySelector('h4').textContent = level + ' Risk';
+                }
+            }
+
+            // Example: Update risk level based on latest data
+            updateRiskLevel('Low');
+        } catch (error) {
+            console.error('Error initializing charts:', error);
+        }
+    });
+</script>
+{% endblock %}

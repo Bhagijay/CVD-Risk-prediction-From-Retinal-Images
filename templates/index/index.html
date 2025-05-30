@@ -1,0 +1,187 @@
+{% load static %}
+<!-- Hero Section -->
+<section class="hero-section bg-image position-relative overflow-hidden" style="background-image: url('{% static "images/about/img-1.jpg" %}'); background-size: cover; background-position: center; min-height: 100vh; width: 100vw;">
+	<div class="hero-overlay"></div>
+	<div class="container h-100">
+		<div class="row min-vh-100 align-items-center justify-content-center">
+			<div class="col-lg-8" data-aos="fade-right">
+				<div class="hero-content text-center text-white position-relative" style="z-index:2;">
+					<h1 class="display-4 fw-bold mb-4">Heart Disease Detection Using Retinal Images</h1>
+					<p class="lead mb-4">Our AI-powered system analyzes retinal images to predict cardiovascular health parameters, providing early detection of potential heart disease risks.</p>
+					<div class="d-flex gap-3 justify-content-center">
+						{% if request.user.is_authenticated %}
+							<a href="{% url 'predict' %}" class="btn btn-primary btn-lg px-4 py-3">Get Started</a>
+						{% else %}
+							<a href="{% url 'login' %}" class="btn btn-primary btn-lg px-4 py-3">Get Started</a>
+						{% endif %}
+						<a href="#how-it-works" class="btn btn-outline-primary btn-lg px-4 py-3">Learn More</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- Features Section -->
+<section class="features-section py-5">
+	<div class="container">
+		<div class="row g-4">
+			<div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
+				<div class="feature-card h-100 p-4 rounded-3 shadow-sm">
+					<div class="feature-icon mb-4">
+						<i class="fas fa-eye fa-3x text-primary"></i>
+					</div>
+					<h3 class="h4 mb-3">AI-Powered Detection</h3>
+					<p class="mb-0">Our advanced algorithms analyze retinal images to identify cardiovascular health indicators with high accuracy.</p>
+				</div>
+			</div>
+			<div class="col-lg-4" data-aos="fade-up" data-aos-delay="200">
+				<div class="feature-card h-100 p-4 rounded-3 shadow-sm">
+					<div class="feature-icon mb-4">
+						<i class="fas fa-heartbeat fa-3x text-primary"></i>
+					</div>
+					<h3 class="h4 mb-3">Comprehensive Analysis</h3>
+					<p class="mb-0">Predicts age, blood pressure, BMI, and HbA1c levels from a single retinal image.</p>
+				</div>
+			</div>
+			<div class="col-lg-4" data-aos="fade-up" data-aos-delay="300">
+				<div class="feature-card h-100 p-4 rounded-3 shadow-sm">
+					<div class="feature-icon mb-4">
+						<i class="fas fa-chart-line fa-3x text-primary"></i>
+					</div>
+					<h3 class="h4 mb-3">Early Detection</h3>
+					<p class="mb-0">Identify potential cardiovascular risks early and take preventive measures.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- How It Works Section -->
+<section id="how-it-works" class="how-it-works-section py-5 bg-light">
+	<div class="container">
+		<div class="row align-items-center">
+			<div class="col-lg-6" data-aos="fade-right">
+				<div class="how-it-works-image">
+					<img src="{% static 'images/about/img-3.jpg' %}" alt="How It Works" class="img-fluid rounded-3 shadow">
+				</div>
+			</div>
+			<div class="col-lg-6" data-aos="fade-left">
+				<div class="how-it-works-content ps-lg-4">
+					<h2 class="display-5 fw-bold mb-4">How It Works</h2>
+					<p class="lead mb-4">Our system uses advanced machine learning algorithms to analyze retinal images and predict cardiovascular health parameters. Simply upload a retinal image, and our AI will provide you with detailed health insights.</p>
+					<div class="steps">
+						<div class="step d-flex align-items-center mb-4">
+							<div class="step-number me-3">1</div>
+							<div class="step-content">
+								<h4 class="h5 mb-2">Upload Image</h4>
+								<p class="mb-0">Upload your retinal image through our secure platform</p>
+							</div>
+						</div>
+						<div class="step d-flex align-items-center mb-4">
+							<div class="step-number me-3">2</div>
+							<div class="step-content">
+								<h4 class="h5 mb-2">AI Analysis</h4>
+								<p class="mb-0">Our AI processes the image and extracts health indicators</p>
+							</div>
+						</div>
+						<div class="step d-flex align-items-center">
+							<div class="step-number me-3">3</div>
+							<div class="step-content">
+								<h4 class="h5 mb-2">Get Results</h4>
+								<p class="mb-0">Receive detailed health insights and recommendations</p>
+							</div>
+						</div>
+					</div>
+					<a href="{% url 'predict' %}" class="btn btn-primary btn-lg mt-4">Try It Now</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- Stats Section -->
+<section class="stats-section py-5">
+	<div class="container">
+		<div class="row g-4">
+			<div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="100">
+				<div class="stat-card text-center p-4 rounded-3 shadow-sm">
+					<i class="fas fa-images fa-3x text-primary mb-3"></i>
+					<h3 class="display-4 fw-bold mb-2">1000+</h3>
+					<p class="mb-0">Images Analyzed</p>
+				</div>
+			</div>
+			<div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="200">
+				<div class="stat-card text-center p-4 rounded-3 shadow-sm">
+					<i class="fas fa-percentage fa-3x text-primary mb-3"></i>
+					<h3 class="display-4 fw-bold mb-2">95%</h3>
+					<p class="mb-0">Accuracy Rate</p>
+				</div>
+			</div>
+			<div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="300">
+				<div class="stat-card text-center p-4 rounded-3 shadow-sm">
+					<i class="fas fa-chart-bar fa-3x text-primary mb-3"></i>
+					<h3 class="display-4 fw-bold mb-2">5</h3>
+					<p class="mb-0">Health Parameters</p>
+				</div>
+			</div>
+			<div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="400">
+				<div class="stat-card text-center p-4 rounded-3 shadow-sm">
+					<i class="fas fa-clock fa-3x text-primary mb-3"></i>
+					<h3 class="display-4 fw-bold mb-2">24/7</h3>
+					<p class="mb-0">Available</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- Services Section -->
+<section class="services-section py-5 bg-light">
+	<div class="container">
+		<div class="row justify-content-center mb-5">
+			<div class="col-lg-7 text-center" data-aos="fade-up">
+				<h2 class="display-5 fw-bold mb-3">Our Services</h2>
+				<p class="lead">We provide comprehensive cardiovascular health analysis through retinal image processing.</p>
+			</div>
+		</div>
+		<div class="row g-4">
+			<div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+				<div class="service-card h-100 p-4 rounded-3 shadow-sm">
+					<div class="service-icon mb-4">
+						<i class="fas fa-eye fa-3x text-primary"></i>
+					</div>
+					<h3 class="h4 mb-3">Retinal Image Analysis</h3>
+					<p class="mb-0">Upload your retinal image for instant analysis using our advanced AI algorithms.</p>
+				</div>
+			</div>
+			<div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+				<div class="service-card h-100 p-4 rounded-3 shadow-sm">
+					<div class="service-icon mb-4">
+						<i class="fas fa-heartbeat fa-3x text-primary"></i>
+					</div>
+					<h3 class="h4 mb-3">Health Parameter Prediction</h3>
+					<p class="mb-0">Get predictions for age, blood pressure, BMI, and HbA1c levels from your retinal image.</p>
+				</div>
+			</div>
+			<div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+				<div class="service-card h-100 p-4 rounded-3 shadow-sm">
+					<div class="service-icon mb-4">
+						<i class="fas fa-chart-line fa-3x text-primary"></i>
+					</div>
+					<h3 class="h4 mb-3">Risk Assessment</h3>
+					<p class="mb-0">Receive a comprehensive risk assessment and personalized health recommendations.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<script>
+function scrollToSection(sectionId) {
+    const section = document.getElementById(sectionId);
+    if (section) {
+        section.scrollIntoView({ behavior: 'smooth' });
+    }
+}
+</script>

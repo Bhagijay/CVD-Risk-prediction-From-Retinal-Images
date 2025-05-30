@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Predict Heart Disease{% endblock %}
+
+{% block index %}
+{% endblock %}
+
+{% block content %}
+<section class="page-title bg-1">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="block text-center">
+                    <span class="text-white">Heart Disease Detection</span>
+                    <h1 class="text-capitalize mb-5 text-lg">Predict Heart Disease</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6" data-aos="fade-right">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h2 class="title-color mb-4">Revolutionizing Heart Disease Detection</h2>
+                        <p class="lead">Our innovative system leverages the power of artificial intelligence and computer vision to detect potential heart disease risks through retinal image analysis. By examining the blood vessels and patterns in the retina, our advanced algorithms can identify early signs of cardiovascular conditions, providing a non-invasive and efficient screening method.</p>
+                        
+                        <div class="mt-4">
+                            <h4 class="mb-3">How it works:</h4>
+                            <ol class="list-group list-group-numbered">
+                                <li class="list-group-item">Upload your retinal image</li>
+                                <li class="list-group-item">Our AI analyzes the image</li>
+                                <li class="list-group-item">Get detailed health insights</li>
+                                <li class="list-group-item">Receive personalized recommendations</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-6" data-aos="fade-left">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h3 class="mb-4">Upload Retinal Image</h3>
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="mb-4">
+                                <label for="id_image" class="form-label">Select Image</label>
+                                {{ form.image }}
+                                {% if form.image.errors %}
+                                    <div class="text-danger mt-2">
+                                        {{ form.image.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-lg w-100">Analyze Image</button>
+                        </form>
+                        
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="alert alert-{{ message.tags }} mt-3">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block footer %}
+{% endblock %}

@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{%load static %}
+{% block title %}About{% endblock %}
+
+{% block style %}
+{% endblock %}
+
+{% block index %}
+{% endblock %}  
+
+{% block content %}
+
+<section class="page-title bg-1">
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="block text-center">
+          <span class="text-white">About Our System</span>
+          <h1 class="text-capitalize mb-5 text-lg">Heart Disease Detection Using Retinal Images</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section about-page">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-4">
+				<h2 class="title-color">Revolutionizing Heart Disease Detection</h2>
+			</div>
+			<div class="col-lg-8">
+				<p>Our innovative system leverages the power of artificial intelligence and computer vision to detect potential heart disease risks through retinal image analysis. By examining the blood vessels and patterns in the retina, our advanced algorithms can identify early signs of cardiovascular conditions, providing a non-invasive and efficient screening method.</p>
+				<img src="{% static 'images/about/sign.png' %}" alt="" class="img-fluid">
+			</div>
+		</div>
+	</div>
+</section>
+
+<section class="section features">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="section-title">
+					<h2 class="mb-4">Why Choose Our System?</h2>
+					<div class="divider my-4"></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-lg-4 col-md-6">
+				<div class="feature-item">
+					<div class="feature-icon">
+						<i class="fas fa-brain"></i>
+					</div>
+					<h4>Advanced AI Technology</h4>
+					<p>Our system utilizes state-of-the-art machine learning algorithms trained on extensive datasets to ensure accurate predictions.</p>
+				</div>
+			</div>
+
+			<div class="col-lg-4 col-md-6">
+				<div class="feature-item">
+					<div class="feature-icon">
+						<i class="fas fa-heartbeat"></i>
+					</div>
+					<h4>Early Detection</h4>
+					<p>Identify potential cardiovascular risks before they manifest into serious conditions, enabling proactive healthcare.</p>
+				</div>
+			</div>
+
+			<div class="col-lg-4 col-md-6">
+				<div class="feature-item">
+					<div class="feature-icon">
+						<i class="fas fa-chart-line"></i>
+					</div>
+					<h4>Comprehensive Analysis</h4>
+					<p>Get detailed insights into multiple health parameters including age, blood pressure, BMI, and HbA1c levels.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section class="section cta-page bg-1">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="cta-content text-center">
+					<h2 class="mb-4">Ready to Get Started?</h2>
+					<p class="mb-4">Experience the power of AI-driven heart disease detection through retinal image analysis.</p>
+					{% if request.user.is_authenticated %}
+						<a href="{% url 'predict' %}" class="btn btn-main">Start Analysis</a>
+					{% else %}
+						<a href="{% url 'login' %}" class="btn btn-main">Login to Start</a>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
