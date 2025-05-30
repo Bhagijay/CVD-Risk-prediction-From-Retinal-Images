@@ -1,1 +1,0 @@
-# CVD-Risk-prediction-From-Retinal-Images
